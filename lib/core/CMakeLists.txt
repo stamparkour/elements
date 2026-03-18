@@ -1,21 +1,21 @@
 include(FetchContent)
 
 #source files
-set(STAMP_CORE_SOURCES
+set(PROJECT_SOURCES
 	"src/core.cpp"
 )
-set(STAMP_CORE_HEADERS
-	"include/stamp/stamp_config.h.in"
-	"include/stamp/core/core.h"
+set(PROJECT_HEADERS
+	"include/elements/core.h"
+	"include/elements/core/registry.h"
 )
 
 # add the library
-add_library(stamp_core STATIC ${STAMP_CORE_SOURCES} ${STAMP_CORE_HEADERS})
-add_library(stamp::core ALIAS stamp_core)
-target_compile_features(stamp_core PUBLIC cxx_std_20)
+add_library(elements_core STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_library(elements::core ALIAS elements_core)
+target_compile_features(elements_core PUBLIC cxx_std_20)
 
 # adds a directory to search when finding header files
-target_include_directories(stamp_core 
+target_include_directories(elements_core 
 	PUBLIC "include" 
 	PUBLIC "${stamp_BINARY_DIR}/lib/core/include"
 )
@@ -46,4 +46,4 @@ target_include_directories(stamp_core
 
 # set the configure file for the project
 
-configure_file("include/stamp/stamp_config.h.in" "include/stamp/stamp_config.h")
+configure_file("include/elements/elements_config.h.in" "include/elements/elements_config.h")

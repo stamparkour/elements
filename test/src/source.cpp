@@ -1,4 +1,6 @@
-#include "math_test.h"
+#include "core_test.h"
+#include "ui_test.h"
+#include "game_test.h"
 #include <gtest/gtest.h>
 
 int main(int argc, char** argv) {
