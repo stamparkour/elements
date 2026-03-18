@@ -6,8 +6,8 @@ set(PROJECT_SOURCES
 )
 set(PROJECT_HEADERS
 	"include/elements/game.h"
-	"include/elements/game/elements_registry.h"
-)
+	"include/elements/game/element_desc.h"
+ "include/elements/game/recipe.h")
 
 # add the library
 add_library(elements_game STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})
