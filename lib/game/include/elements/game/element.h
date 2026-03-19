@@ -15,13 +15,18 @@ namespace elements {
 	class element_desc {
 		friend class element_registry;
 		std::string name_v;
-		element_desc(const std::string_view& str) {
+		int initial_count_v = 0;
+		element_desc(const std::string_view& str, int initial_count = 0) {
 			this->name_v = str;
+			this->initial_count_v = initial_count;
 		}
 	public:
 		element_desc() {}
 		const std::string& name() const {
 			return name_v;
+		}
+		int initial_count() const {
+			return initial_count_v;
 		}
 	};
 	class element_token {
@@ -35,6 +40,9 @@ namespace elements {
 		element_token() : id_v(0) {}
 		std::size_t id() const {
 			return id_v;
+		}
+		friend bool operator ==(const element_token& a, nullptr_t) {
+			return a.id() == 0;
 		}
 		friend bool operator ==(const element_token& a, const element_token& b) {
 			return a.id_v == b.id_v;
@@ -57,21 +65,33 @@ struct std::hash<elements::element_token> {
 };
 
 namespace elements {
+
 	class element_registry {
 		std::vector<element_desc> token_to_desc{};
 		std::unordered_map<std::string, element_token> str_to_token{};
 		element_token next_token{ 1 };
+		std::vector<element_token> init_elements{};
 	public:
 		element_registry() {
 			token_to_desc.emplace_back(); // sets size to 1, next open index is 1
 		}
 
-		void insert(const std::string& name) {
-			str_to_token.emplace(name, next_token);
-			token_to_desc.emplace_back(element_desc(name));
+		element_token insert(const element_desc& desc) {
+			if (str_to_token.count(desc.name())) {
+				return element_token{};
+			}
+			auto tok = next_token;
+			str_to_token.emplace(desc.name(), tok);
+			token_to_desc.push_back(desc);
 			next_token = next_token.next();
+
+			if (desc.initial_count() != 0) {
+				init_elements.push_back(tok);
+			}
+
+			return tok;
 		}
-		void insert_list(std::initializer_list<std::string> elm) {
+		void insert_list(std::initializer_list<element_desc> elm) {
 			for (const auto& e : elm) {
 				insert(e);
 			}
@@ -88,7 +108,7 @@ namespace elements {
 			auto p = str_to_token.find(str);
 			if (p == str_to_token.end()) return false;
 			const auto& [str_out, token] = *p;
-			*out = token;
+			if(out != nullptr) *out = token;
 			return true;
 		}
 		const element_desc& get_element_desc(element_token token) const {
@@ -99,6 +119,10 @@ namespace elements {
 		}
 		std::size_t total_element_ids() {
 			return next_token.id();
+		}
+
+		const std::vector<element_token>& initial_elements() const {
+			return init_elements;
 		}
 	};
 }

@@ -14,12 +14,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # include subdirectories
 add_subdirectory(lib/core)
-add_subdirectory(lib/ui)
 add_subdirectory(lib/game)
+add_subdirectory(lib/serialize)
+add_subdirectory(lib/ui)
 
 add_library(elements_elements INTERFACE)
 add_library(elements::elements ALIAS elements_elements)
-target_link_libraries(elements_elements INTERFACE elements::core elements::ui elements::game)
+target_link_libraries(elements_elements INTERFACE elements::core elements::ui elements::game elements::serialize)
 
 add_subdirectory(app/game)
 

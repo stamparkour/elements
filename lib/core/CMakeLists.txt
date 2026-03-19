@@ -6,7 +6,7 @@ set(PROJECT_SOURCES
 )
 set(PROJECT_HEADERS
 	"include/elements/core.h"
-	
+	"include/elements/core/word_iterable.h"
 )
 
 # add the library

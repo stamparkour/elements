@@ -5,7 +5,7 @@ set(PROJECT_SOURCES
 	"src/source.cpp"
 )
 set(PROJECT_HEADERS
-	"src/core_tests.h"
+	"src/core_test.h"
 )
 
 

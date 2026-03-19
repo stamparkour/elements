@@ -49,17 +49,17 @@ struct std::hash<elements::recipe_in> {
 };
 
 namespace elements {
-	class recipe_t {
-
-	};
 	class recipe_registry {
 		std::unordered_map<recipe_in, element_token> recipe_in_to_output{};
 	public:
 		recipe_registry() {}
 
-		void insert(const std::tuple<element_token, element_token, element_token>& v) {
+		bool insert(const std::tuple<element_token, element_token, element_token>& v) {
 			const auto& [a, b, out] = v;
-			recipe_in_to_output.emplace(recipe_in{ a,b }, out);
+			recipe_in re{ a,b };
+			if (recipe_in_to_output.count(re)) return false;
+			recipe_in_to_output.emplace(re, out);
+			return true;
 		}
 		void insert_list(std::initializer_list< std::tuple<element_token, element_token, element_token>> elm) {
 			for (const auto& e : elm) {

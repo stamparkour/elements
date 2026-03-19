@@ -8,11 +8,10 @@ set(PROJECT_HEADERS
 	"include/elements/ui.h"
 	"include/elements/ui/command_handler.h"
 	"include/elements/ui/commands.h"
-	"include/elements/ui/word_iterable.h"
 	"include/elements/ui/commands/list_cmd.h"
 	"include/elements/ui/commands/mix_cmd.h"
 	"include/elements/ui/io.h"
- "include/elements/ui/commands/orphan_cmd.h" "include/elements/ui/commands/combo_cmd.h")
+ "include/elements/ui/commands/orphan_cmd.h" "include/elements/ui/commands/combo_cmd.h" "include/elements/ui/commands/hint_cmd.h" "include/elements/ui/commands/recipe_cmd.h")
 
 # add the library
 add_library(elements_ui STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})

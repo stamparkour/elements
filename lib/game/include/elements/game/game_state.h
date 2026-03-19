@@ -20,7 +20,7 @@ namespace elements {
 		game_state() :
 			element_r(),
 			recipe_r(),
-			inventory_v(&recipe_r)
+			inventory_v(&element_r, &recipe_r)
 		{
 			if (global_game_state_v != nullptr) throw new std::runtime_error("global_game_state_v already exists");
 			global_game_state_v = this;

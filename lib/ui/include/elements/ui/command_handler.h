@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <string>
 #include <string_view>
-#include "word_iterable.h"
+#include <elements/core/word_iterable.h>
 #include <iostream>
 #include <functional>
 #include <vector>

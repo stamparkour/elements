@@ -11,11 +11,11 @@ int main(int argc, char** argv) {
 	game_io io{&std::cin, &std::cout};
 
 	state.element_registry().insert_list({
-		"fire",
-		"earth",
-		"water",
-		"air",
-		"rain"
+		{"fire"},
+		{"earth"},
+		{"water"},
+		{"air"},
+		{"rain"}
 	});
 	auto tok = [&](auto t) { return state.element_registry().get_token(t); };
 	state.recipe_registry().insert_list({
