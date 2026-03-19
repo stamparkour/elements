@@ -1,0 +1,1 @@
+//prints out all the elements that have no recipe and are not starting elements

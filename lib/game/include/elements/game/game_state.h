@@ -13,11 +13,15 @@ namespace elements {
 	
 	class game_state {
 		static inline game_state* global_game_state_v = nullptr;
-		element_registry* element_r = nullptr;
-		recipe_registry* recipe_r = nullptr;
-		element_inventory* inventory_v = nullptr;
+		element_registry element_r;
+		recipe_registry recipe_r;
+		element_inventory inventory_v;
 	public:
-		game_state(element_registry* er, recipe_registry* rr, element_inventory* i) : element_r(er), recipe_r(rr), inventory_v(i) {
+		game_state() :
+			element_r(),
+			recipe_r(),
+			inventory_v(&recipe_r)
+		{
 			if (global_game_state_v != nullptr) throw new std::runtime_error("global_game_state_v already exists");
 			global_game_state_v = this;
 		}
@@ -30,13 +34,13 @@ namespace elements {
 		static game_state* global_game_state() {
 			return global_game_state_v;
 		}
-		elements::element_registry* element_registry() {
+		elements::element_registry& element_registry() {
 			return element_r;
 		}
-		elements::recipe_registry* recipe_registry() {
+		elements::recipe_registry& recipe_registry() {
 			return recipe_r;
 		}
-		elements::element_inventory* element_inventory() {
+		elements::element_inventory& element_inventory() {
 			return inventory_v;
 		}
 	};

@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <compare>
 #include <vector>
+#include <initializer_list>
+#include <concepts>
 
 namespace elements {
 	class element_desc {
@@ -17,6 +19,7 @@ namespace elements {
 			this->name_v = str;
 		}
 	public:
+		element_desc() {}
 		const std::string& name() const {
 			return name_v;
 		}
@@ -32,6 +35,9 @@ namespace elements {
 		element_token() : id_v(0) {}
 		std::size_t id() const {
 			return id_v;
+		}
+		friend bool operator ==(const element_token& a, const element_token& b) {
+			return a.id_v == b.id_v;
 		}
 		friend std::strong_ordering operator <=>(const element_token& a, const element_token& b) {
 			return a.id_v <=> b.id_v;
@@ -60,14 +66,19 @@ namespace elements {
 			token_to_desc.emplace_back(); // sets size to 1, next open index is 1
 		}
 
-		void emplace(const element_desc& desc) {
-			str_to_token.emplace(desc.name(), next_token);
-			token_to_desc.emplace_back(desc);
+		void insert(const std::string& name) {
+			str_to_token.emplace(name, next_token);
+			token_to_desc.emplace_back(element_desc(name));
 			next_token = next_token.next();
+		}
+		void insert_list(std::initializer_list<std::string> elm) {
+			for (const auto& e : elm) {
+				insert(e);
+			}
 		}
 		element_token get_token(const std::string& str) const {
 			auto p = str_to_token.find(str);
-			if (p != str_to_token.end()) {
+			if (p == str_to_token.end()) {
 				throw std::runtime_error("value of str not a valid element in registry");
 			}
 			const auto& [str_out, token] = *p;
@@ -75,7 +86,7 @@ namespace elements {
 		}
 		bool try_get_token(const std::string& str, element_token* out) const {
 			auto p = str_to_token.find(str);
-			if (p != str_to_token.end()) return false;
+			if (p == str_to_token.end()) return false;
 			const auto& [str_out, token] = *p;
 			*out = token;
 			return true;

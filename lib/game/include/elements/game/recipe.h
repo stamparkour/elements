@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <cstddef>
+#include <initializer_list>
 #include "element.h"
 
 namespace elements {
@@ -23,6 +24,9 @@ namespace elements {
 			return b_v;
 		}
 
+		friend bool operator ==(const recipe_in& a, const recipe_in& b) {
+			return a.a() == b.a() && a.b() == b.b();
+		}
 		friend std::strong_ordering operator <=>(const recipe_in& a, const recipe_in& b) {
 			auto ac = a.a() <=> b.a();
 			if (ac != std::strong_ordering::equal) return ac;
@@ -45,13 +49,22 @@ struct std::hash<elements::recipe_in> {
 };
 
 namespace elements {
+	class recipe_t {
+
+	};
 	class recipe_registry {
 		std::unordered_map<recipe_in, element_token> recipe_in_to_output{};
 	public:
 		recipe_registry() {}
 
-		void emplace(element_token a, element_token b, element_token out) {
+		void insert(const std::tuple<element_token, element_token, element_token>& v) {
+			const auto& [a, b, out] = v;
 			recipe_in_to_output.emplace(recipe_in{ a,b }, out);
+		}
+		void insert_list(std::initializer_list< std::tuple<element_token, element_token, element_token>> elm) {
+			for (const auto& e : elm) {
+				insert(e);
+			}
 		}
 		bool try_get_out(element_token a, element_token b, element_token* out) const {
 			auto f = recipe_in_to_output.find(recipe_in{ a,b });

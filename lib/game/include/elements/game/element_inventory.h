@@ -4,6 +4,7 @@
 #include "element.h"
 #include "recipe.h"
 #include <unordered_map>
+#include <initializer_list>
 
 
 namespace elements {
@@ -37,8 +38,13 @@ namespace elements {
 			s.produced++;
 			s.current++;
 		}
+		void increment_element_list(std::initializer_list<element_token> elm) {
+			for (const auto& e : elm) {
+				increment_element(e);
+			}
+		}
 
-		bool craft(element_token a, element_token b, element_token* out_v) {
+		bool mix(element_token a, element_token b, element_token* out_v) {
 			element_state* as;
 			element_state* bs;
 			if (!try_get_element_state(a, &as) || as->current == 0) return false;
