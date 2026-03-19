@@ -7,7 +7,7 @@ set(PROJECT_SOURCES
 set(PROJECT_HEADERS
 	"include/elements/game.h"
 	"include/elements/game/element.h"
- "include/elements/game/recipe.h" "include/elements/game/player_state.h")
+ "include/elements/game/recipe.h" "include/elements/game/game_state.h" "include/elements/game/element_inventory.h")
 
 # add the library
 add_library(elements_game STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})

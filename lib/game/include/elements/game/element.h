@@ -60,12 +60,12 @@ namespace elements {
 			token_to_desc.emplace_back(); // sets size to 1, next open index is 1
 		}
 
-		void emplace(const std::string_view& str, const element_desc& desc) {
-			str_to_token.emplace(std::string{str}, next_token);
+		void emplace(const element_desc& desc) {
+			str_to_token.emplace(desc.name(), next_token);
 			token_to_desc.emplace_back(desc);
 			next_token = next_token.next();
 		}
-		element_token to_token(const std::string& str) const {
+		element_token get_token(const std::string& str) const {
 			auto p = str_to_token.find(str);
 			if (p != str_to_token.end()) {
 				throw std::runtime_error("value of str not a valid element in registry");
@@ -73,7 +73,14 @@ namespace elements {
 			const auto& [str_out, token] = *p;
 			return token;
 		}
-		const element_desc& element_desc(element_token token) const {
+		bool try_get_token(const std::string& str, element_token* out) const {
+			auto p = str_to_token.find(str);
+			if (p != str_to_token.end()) return false;
+			const auto& [str_out, token] = *p;
+			*out = token;
+			return true;
+		}
+		const element_desc& get_element_desc(element_token token) const {
 			if (token.id() <= 0 || token.id() > token_to_desc.size()) {
 				throw std::runtime_error("value of token not a valid element in registry");
 			}
