@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <unordered_set>
 
 namespace elements {
 	int list_cmd(int argv, char** argc, std::istream& cin, std::ostream& cout) {
@@ -36,13 +37,16 @@ namespace elements {
 		}
 
 		game_state* state = game_state::global_game_state();
-		auto& elements = state->element_inventory().element_states();
+		auto& elements = state->element_inventory()->element_states();
+		auto& element_regiistry = state->element_inventory()->element_states();
 		std::vector<std::pair<element_token, std::string_view>> arr{};
+
+		static std::unordered_set<element_token> seen_tokens = element;
 
 		// loop through all elements and adds to arr
 		for (const auto& e : elements) {
 			auto& [token, ev] = e;
-			auto& element_desc = state->element_registry().get_element_desc(token);
+			auto& element_desc = state->element_registry()->get_element_desc(token);
 			if (!ev.is_unlocked()) continue;
 			arr.push_back({ token, element_desc.name() });
 		}
@@ -58,8 +62,14 @@ namespace elements {
 
 		for (auto e : arr) {
 			auto& [token, name] = e;
+			if (seen_tokens.count(token) != 0) {
+				cout << "  - " << name << std::endl;
+			}
+			else {
+				cout << "  - " << name << " (new)" << std::endl;
+				seen_tokens.insert(token);
+			}
 
-			cout << "  - " << name << std::endl;
 		}
 
 		return 0;

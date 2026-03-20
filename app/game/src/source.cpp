@@ -1,6 +1,9 @@
 #include <iostream>
+#include <fstream>
 #include <elements/game/game_state.h>
 #include <elements/ui/io.h>
+#include <elements/serialize/elements_config.h>
+#include <filesystem>
 
 using namespace elements;
 
@@ -10,21 +13,15 @@ int main(int argc, char** argv) {
 	game_state state{};
 	game_io io{&std::cin, &std::cout};
 
-	state.element_registry().insert_list({
-		{"fire"},
-		{"earth"},
-		{"water"},
-		{"air"},
-		{"rain"}
-	});
-	auto tok = [&](auto t) { return state.element_registry().get_token(t); };
-	state.recipe_registry().insert_list({
-		{ tok("water"), tok("air"), tok("rain")}
-	});
-	state.element_inventory().increment_element_list({
-		tok("water"),
-		tok("air")
-	});
+	if (!std::filesystem::exists("elements_config.txt")) {
+		std::cout << "elements_config.txt does not exist. terminating...";
+		return 1;
+	}
+
+	std::ifstream elements_config_file{ "elements_config.txt" };
+	parse_elements_config(elements_config_file);
+
+	state.element_inventory()->reset();
 
 	while (io.cmd_in());
 

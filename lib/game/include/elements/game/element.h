@@ -16,12 +16,12 @@ namespace elements {
 		friend class element_registry;
 		std::string name_v;
 		int initial_count_v = 0;
+	public:
+		element_desc() {}
 		element_desc(const std::string_view& str, int initial_count = 0) {
 			this->name_v = str;
 			this->initial_count_v = initial_count;
 		}
-	public:
-		element_desc() {}
 		const std::string& name() const {
 			return name_v;
 		}

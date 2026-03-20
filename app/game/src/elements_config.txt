@@ -1,0 +1,9 @@
+# initial elements
+fire
+earth
+water
+air
+
+# recipes
+# <A> <B> <OUT>
+water air rain

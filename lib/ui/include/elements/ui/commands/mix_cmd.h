@@ -8,9 +8,9 @@
 namespace elements {
 	int inline_mix(const char* ac, const char* bc, std::ostream& cout) {
 		game_state* state = game_state::global_game_state();
-		auto recipes_reg = &state->recipe_registry();
-		auto element_reg = &state->element_registry();
-		auto inventory = &state->element_inventory();
+		auto recipes_reg = state->recipe_registry();
+		auto element_reg = state->element_registry();
+		auto inventory = state->element_inventory();
 
 		element_token a, b;
 		if (!element_reg->try_get_token(ac, &a)) return 2;

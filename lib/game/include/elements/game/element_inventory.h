@@ -15,11 +15,11 @@ namespace elements {
 		int produced = 0;
 		int current = 0;
 
-		bool is_unlimited() {
+		bool is_unlimited() const {
 			return is_unlimited_v;
 		}
 		bool is_unlocked() const {
-			return is_unlimited || produced > 0;
+			return is_unlimited() || produced > 0;
 		}
 		bool can_use() const {
 			return current > 0;

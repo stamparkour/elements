@@ -34,14 +34,14 @@ namespace elements {
 		static game_state* global_game_state() {
 			return global_game_state_v;
 		}
-		elements::element_registry& element_registry() {
-			return element_r;
+		elements::element_registry* element_registry() {
+			return &element_r;
 		}
-		elements::recipe_registry& recipe_registry() {
-			return recipe_r;
+		elements::recipe_registry* recipe_registry() {
+			return &recipe_r;
 		}
-		elements::element_inventory& element_inventory() {
-			return inventory_v;
+		elements::element_inventory* element_inventory() {
+			return &inventory_v;
 		}
 	};
 }

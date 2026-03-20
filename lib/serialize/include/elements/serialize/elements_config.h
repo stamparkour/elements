@@ -12,18 +12,18 @@
 namespace elements {
 	void parse_elements_config(std::istream& cin) {
 		game_state* state = game_state::global_game_state();
-		auto recipe_reg = state->recipe_registry();
-		auto element_reg = state->element_registry();
-		auto inventory = state->element_inventory();
+		auto& recipe_reg = *state->recipe_registry();
+		auto& element_reg = *state->element_registry();
+		auto& inventory = *state->element_inventory();
 
 		while (cin) {
 			std::string line;
 			std::getline(cin, line);
 			if (line.empty() || line[0] == '#') continue;
 
-			std::vector<std::string> words;
+			std::vector<std::string> words{};
 			for (const auto& w : word_iterable(line)) {
-				words.push_back(w);
+				words.push_back(std::string{ w });
 			}
 
 			if (words.size() == 1) {
