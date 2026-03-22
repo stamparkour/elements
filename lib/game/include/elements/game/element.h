@@ -100,7 +100,7 @@ namespace elements {
 		element_token get_token(const std::string& str) const {
 			auto p = str_to_token.find(str);
 			if (p == str_to_token.end()) {
-				throw std::runtime_error("value of str not a valid element in registry");
+				throw std::runtime_error(std::string{"value of str not a valid element in registry: "} + str);
 			}
 			const auto& [str_out, token] = *p;
 			return token;
@@ -114,7 +114,7 @@ namespace elements {
 		}
 		const element_desc& get_element_desc(element_token token) const {
 			if (token.id() <= 0 || token.id() > token_to_desc.size()) {
-				throw std::runtime_error("value of token not a valid element in registry");
+				throw std::runtime_error(std::string{"value of token not a valid element in registry: "} + std::to_string(token.id()));
 			}
 			return token_to_desc[token.id()];
 		}

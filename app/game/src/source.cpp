@@ -5,10 +5,11 @@
 #include <elements/serialize/elements_config.h>
 #include <filesystem>
 #include <elements/elements_config.h>
+#include <stdexcept>
 
 using namespace elements;
 
-int main(int argc, char** argv) {
+int run(int argc, char** argv) {
 	while (true) {
 		std::cout
 			<< "Elements " << ELEMENTS_VERSION << std::endl
@@ -30,6 +31,19 @@ int main(int argc, char** argv) {
 		state.element_inventory()->reset();
 
 		while (io.cmd_in());
+	}
+
+	return 0;
+}
+
+int main(int argc, char** argv) {
+	try {
+		return run(argc, argv);
+	}
+	catch (std::exception& e) {
+		std::cout << std::endl << "======== EXCEPTION ========" << std::endl;
+		std::cout << e.what();
+		std::cin.get();
 	}
 
 	return 0;

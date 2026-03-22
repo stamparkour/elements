@@ -23,6 +23,9 @@ namespace elements {
 
 			int ret_code = cmd.invoke(line, *cin, *cout);
 
+			if (ret_code == 0x7e01) {
+				std::cout << "command does not exist." << std::endl;
+			}
 			if (ret_code != 0) {
 				std::cout << "return code: " << std::hex << ret_code << std::endl;
 			}

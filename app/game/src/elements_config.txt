@@ -7,16 +7,60 @@ air
 # recipes
 # <A> <B> <OUT>
 
-water air rain
-fire earth lava
-earth earth land
-air air wind
-fire air ash
-rain air cloud
-water earth mud
-land wind sand
-ash mud soil
-land land continent
-land rain soil
-fire lava magma
-fire water steam
+fire earth		lava
+fire water		steam
+fire air		smoke
+fire fire		burn
+earth water		mud
+earth air		dust
+earth earth 	land
+water air		mist
+water water 	puddle
+air air 		wind
+
+fire lava		magma
+lava lava		magma
+smoke steam		smog
+wind mist		fog
+air mist		cloud
+land land		continent
+mud land 		swamp
+continent continent country
+puddle puddle 	pond
+pond pond 		lake
+swamp lake		bog
+wind water 		rain
+water cloud 	rain
+rain rain 		storm
+rain fire 		lightning
+lightning lightning electricity
+electricity mud	life
+life air		bird
+bird land		penguin
+bird fire		pheonix
+life water		fish
+lake lake 		ocean
+mud country 	india
+india india 	indian
+ocean land		island
+ocean island	archipelago
+island country	"united kingdom"
+continent "united kingdom" europe
+continent india	india
+country country	province
+province province county
+county county 	city
+lightning storm thunder
+lightning rain	storm
+country lava	iceland
+rain land		river
+river ocean		delta
+fire europe		revolution
+steam electricity motor
+revolution smog	"industrial revolution"
+motor revolution "industrial revolution"
+swamp province	florida
+thunder fire	lightning
+motor motor		engine
+mud india		india
+smog city		london
