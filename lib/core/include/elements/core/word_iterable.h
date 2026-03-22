@@ -14,7 +14,8 @@ namespace elements {
 			using reference = value_type&;
 			using iterator_category = std::forward_iterator_tag;
 		private:
-			std::string_view view;
+
+			std::string word;
 			std::string::const_iterator str_start;
 			std::string::const_iterator str_next;
 			std::string::const_iterator str_end;
@@ -31,27 +32,69 @@ namespace elements {
 			static bool is_whitespace(char c) {
 				return c == ' ' || c == '\t';
 			}
+			static bool is_quote(char c) {
+				return c == '"';
+			}
+
 			// pre
 			word_iterator& operator++() {
 				//setup next frame
 				str_start = str_next;
 				auto start = str_start;
 				auto iter = str_start;
+				auto next = str_start;
 
 				//find end of word
-				for (;
-					iter != str_end && !is_whitespace(*iter);
-					++iter);
+				if (iter != str_end && is_quote(*iter)) {
+					start++;
+					iter++;
+					for (;
+						iter != str_end && !is_quote(*iter);
+						++iter) {
+						if (*iter == '\\') ++iter;
+					}
+					next = iter;
+					if (next != str_end) next++;
+				}
+				else {
+					for (;
+						iter != str_end && !is_whitespace(*iter) && !is_quote(*iter);
+						++iter) {
+						if (*iter == '\\') ++iter;
+					}
+					next = iter;
+				}
 
 				//save word
-				view = std::string_view(start, iter);
+				word = "";
+				for (auto i = start; i != iter; i++) {
+					if (*i == '\\') {
+						i++;
+						switch (*i) {
+						case 't':
+							word += '\t';
+							break;
+						case 'n':
+							word += '\n';
+							break;
+						case 'r':
+							word += '\r';
+							break;
+						default:
+							word += *i;
+						}
+					}
+					else {
+						word += *i;
+					}
+				}
 
 				//find next available word
 				for (;
-					iter != str_end && is_whitespace(*iter);
-					++iter);
+					next != str_end && is_whitespace(*next);
+					++next);
 
-				str_next = iter;
+				str_next = next;
 
 				return *this;
 			}
@@ -64,8 +107,8 @@ namespace elements {
 			bool operator==(const word_iterator& other) const {
 				return str_start == other.str_start;
 			}
-			std::string_view operator*() {
-				return view;
+			const std::string& operator*() {
+				return word;
 			}
 		};
 

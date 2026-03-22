@@ -11,7 +11,7 @@ namespace elements {
 		std::ostream* cout;
 		command_handler cmd;
 	public:
-		game_io(std::istream* cin, std::ostream* cout) : cin(cin), cout(cout), cmd(default_commands()) {}
+		game_io(std::istream* cin, std::ostream* cout, bool is_dev = false) : cin(cin), cout(cout), cmd(default_commands(is_dev)) {}
 
 		//blocking function for std::cin
 		bool cmd_in() {
@@ -19,6 +19,8 @@ namespace elements {
 			std::string line;
 			std::getline(*cin, line);
 			if (line.empty()) return true;
+			if (line == "reload") return false;
+
 			int ret_code = cmd.invoke(line, *cin, *cout);
 
 			if (ret_code != 0) {

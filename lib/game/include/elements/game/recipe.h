@@ -10,6 +10,8 @@
 namespace elements {
 	class recipe_in {
 		friend class recipe_registry;
+		friend class recipe_t;
+
 		element_token a_v; // smaller
 		element_token b_v; // larger
 
@@ -49,27 +51,57 @@ struct std::hash<elements::recipe_in> {
 };
 
 namespace elements {
+	struct recipe_t {
+		element_token a;
+		element_token b;
+		element_token out;
+
+		recipe_in get_in() const {
+			return {a,b};
+		}
+	};
 	class recipe_registry {
 		std::unordered_map<recipe_in, element_token> recipe_in_to_output{};
+		std::unordered_map<element_token, std::vector<recipe_in>> output_to_recipe_ins{};
+		std::unordered_map<element_token, std::vector<element_token>> token_to_recipe_complements{};
 	public:
 		recipe_registry() {}
 
-		bool insert(const std::tuple<element_token, element_token, element_token>& v) {
-			const auto& [a, b, out] = v;
+		bool insert(element_token a, element_token b, element_token out) {
 			recipe_in re{ a,b };
+			// is unique recipe
 			if (recipe_in_to_output.count(re)) return false;
+			// now is guaranteed that (a,b) and (b,a) are not in set
 			recipe_in_to_output.emplace(re, out);
+
+			token_to_recipe_complements[a].push_back(b);
+			token_to_recipe_complements[b].push_back(a);
+			output_to_recipe_ins[out].push_back(re);
+
 			return true;
 		}
 		void insert_list(std::initializer_list< std::tuple<element_token, element_token, element_token>> elm) {
 			for (const auto& e : elm) {
-				insert(e);
+				auto& [a, b, out] = e;
+				insert(a,b,out);
 			}
 		}
 		bool try_get_out(element_token a, element_token b, element_token* out) const {
 			auto f = recipe_in_to_output.find(recipe_in{ a,b });
 			if (f == recipe_in_to_output.end()) return false;
 			if (out != nullptr) *out = std::get<1>(*f);
+			return true;
+		}
+		bool try_get_in(element_token out, const std::vector<recipe_in>** out_vector) {
+			auto f = output_to_recipe_ins.find(out);
+			if (f == output_to_recipe_ins.end()) return false;
+			if (out_vector != nullptr) *out_vector = &std::get<1>(*f);
+			return true;
+		}
+		bool try_get_complements(element_token a, const std::vector<element_token>** out_vector) {
+			auto f = token_to_recipe_complements.find(a);
+			if (f == token_to_recipe_complements.end()) return false;
+			if (out_vector != nullptr) *out_vector = &std::get<1>(*f);
 			return true;
 		}
 	};

@@ -31,12 +31,12 @@ namespace elements {
 			}
 			else if (words.size() == 3) {
 				element_token out;
-				if (!element_reg.try_get_token(words[2], nullptr)) out = element_reg.insert({ words[2] });
+				if (!element_reg.try_get_token(words[2], &out)) out = element_reg.insert({ words[2] });
 
 				element_token a = element_reg.get_token(words[0]);
 				element_token b = element_reg.get_token(words[1]);
 
-				recipe_reg.insert({ a,b,out });
+				recipe_reg.insert(a, b, out);
 			}
 		}
 	}

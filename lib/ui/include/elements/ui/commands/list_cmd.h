@@ -38,10 +38,17 @@ namespace elements {
 
 		game_state* state = game_state::global_game_state();
 		auto& elements = state->element_inventory()->element_states();
-		auto& element_regiistry = state->element_inventory()->element_states();
+		auto element_registry = state->element_registry();
 		std::vector<std::pair<element_token, std::string_view>> arr{};
 
-		static std::unordered_set<element_token> seen_tokens = element;
+		static std::unordered_set<element_token> seen_tokens = [&]() {
+			auto& vec = element_registry->initial_elements();
+			std::unordered_set<element_token> ret{};
+			for (auto& e : vec) {
+				ret.insert(e);
+			}
+			return ret;
+		}();
 
 		// loop through all elements and adds to arr
 		for (const auto& e : elements) {

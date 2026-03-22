@@ -6,4 +6,17 @@ air
 
 # recipes
 # <A> <B> <OUT>
+
 water air rain
+fire earth lava
+earth earth land
+air air wind
+fire air ash
+rain air cloud
+water earth mud
+land wind sand
+ash mud soil
+land land continent
+land rain soil
+fire lava magma
+fire water steam

@@ -17,7 +17,7 @@ target_compile_features(elements_core PUBLIC cxx_std_20)
 # adds a directory to search when finding header files
 target_include_directories(elements_core 
 	PUBLIC "include" 
-	PUBLIC "${stamp_BINARY_DIR}/lib/core/include"
+	PUBLIC "${elements_BINARY_DIR}/lib/core/include"
 )
 
 # dependencies

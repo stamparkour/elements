@@ -13,8 +13,15 @@ namespace elements {
 		auto inventory = state->element_inventory();
 
 		element_token a, b;
-		if (!element_reg->try_get_token(ac, &a)) return 2;
-		if (!element_reg->try_get_token(bc, &b)) return 3;
+		element_state *a_state, *b_state;
+		if (!element_reg->try_get_token(ac, &a) || !inventory->try_get_element_state(a, &a_state) || !a_state->can_use()) {
+			cout << ac << " is an invalid element" << std::endl;
+			return  0;
+		}
+		if (!element_reg->try_get_token(bc, &b) || !inventory->try_get_element_state(b, &b_state) || !b_state->can_use()) {
+			cout << bc << " is an invalid element" << std::endl;
+			return 0;
+		}
 		element_token out;
 		if (inventory->mix(a, b, &out)) {
 			auto& desc = element_reg->get_element_desc(out);
@@ -72,8 +79,8 @@ namespace elements {
 			cout
 				<< "mixing mode!" << std::endl 
 				<< std::endl
-				<< "to leave, enter empty line" << std::endl
-				<< "to mix, enter '<element one> <element two>'" << std::endl << std::endl;
+				<< "to leave, type an empty line" << std::endl
+				<< "to mix, type '<element one> <element two>'" << std::endl << std::endl;
 
 			while (true) {
 				std::string line;
@@ -93,17 +100,13 @@ namespace elements {
 				b = line.substr(s);
 
 				int ret = inline_mix(a.c_str(), b.c_str(), cout);
-				if (ret == 2) {
-					cout << "invalid element: " << a << std::endl;
-				}
-				else if (ret == 3) {
-					cout << "invalid element: " << b << std::endl;
-				}
 			}
 			return 0;
 		}
-
-		return 5;
+		else {
+			cout << "invalid invokation. Type 'mix --help' for more info." << std::endl;
+			return 0;
+		}
 	}
 }
 

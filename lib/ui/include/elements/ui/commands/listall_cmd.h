@@ -1,7 +1,5 @@
-// prints out list of random combinations that are not implemented
-
-#ifndef ELEMENTS_UI_COMMANDS_COMBO_CMD_H
-#define ELEMENTS_UI_COMMANDS_COMBO_CMD_H
+#ifndef ELEMENTS_UI_COMMANDS_LISTALL_CMD_H
+#define ELEMENTS_UI_COMMANDS_LISTALL_CMD_H
 
 #include <elements/game.h>
 #include <string>
@@ -11,7 +9,7 @@
 #include <random>
 
 namespace elements {
-	int combo_cmd(int argv, char** argc, std::istream& cin, std::ostream& cout) {
+	int listall_cmd(int argv, char** argc, std::istream& cin, std::ostream& cout) {
 		bool is_help_invoke = false;
 		bool is_version_invoke = false;
 		int last_flag = 0;
@@ -59,22 +57,12 @@ namespace elements {
 			const auto& tuple1 = *i;
 			const auto& [a_str, a_token] = tuple1;
 
-			for (auto j = i; j != list.end(); ++j) {
-				const auto& tuple2 = *j;
-				const auto& [b_str, b_token] = tuple2;
-
-				element_token out;
-				if (recipe_registry->try_get_out(a_token, b_token, &out)) continue;
-
-				arr.push_back(a_str + " " + b_str);
-			}
+			arr.push_back(a_str);
 		}
 
-		std::vector<std::string> o_arr{};
-		auto gen = std::mt19937{std::random_device{}()};
-		std::ranges::sample(arr, std::back_inserter(o_arr), total_combos, gen);
+		std::ranges::sort(arr);
 
-		for (auto& s : o_arr) {
+		for (auto& s : arr) {
 			cout << s << std::endl;
 		}
 
@@ -82,4 +70,4 @@ namespace elements {
 	}
 }
 
-#endif // ELEMENTS_UI_COMMANDS_COMBO_CMD_H
+#endif // ELEMENTS_UI_COMMANDS_LISTALL_CMD_H

@@ -12,29 +12,12 @@
 #include <concepts>
 
 namespace elements {
-	class element_desc {
-		friend class element_registry;
-		std::string name_v;
-		int initial_count_v = 0;
-	public:
-		element_desc() {}
-		element_desc(const std::string_view& str, int initial_count = 0) {
-			this->name_v = str;
-			this->initial_count_v = initial_count;
-		}
-		const std::string& name() const {
-			return name_v;
-		}
-		int initial_count() const {
-			return initial_count_v;
-		}
-	};
 	class element_token {
 		friend class element_registry;
 		std::size_t id_v;
 		element_token(std::size_t id) : id_v(id) {}
 		element_token next() const {
-			return element_token{ id_v + 1};
+			return element_token{id_v + 1};
 		}
 	public:
 		element_token() : id_v(0) {}
@@ -53,6 +36,24 @@ namespace elements {
 		std::size_t hash() const {
 			std::hash<std::size_t> hash_f{};
 			return hash_f(id_v);
+		}
+	};
+	class element_desc {
+		friend class element_registry;
+	private:
+		std::string name_v;
+		int initial_count_v = 0;
+	public:
+		element_desc() {}
+		element_desc(const std::string_view& str, int initial_count = 0) {
+			this->name_v = str;
+			this->initial_count_v = initial_count;
+		}
+		const std::string& name() const {
+			return name_v;
+		}
+		int initial_count() const {
+			return initial_count_v;
 		}
 	};
 }
@@ -124,6 +125,11 @@ namespace elements {
 		const std::vector<element_token>& initial_elements() const {
 			return init_elements;
 		}
+
+		const auto& name_token_map() const {
+			return str_to_token;
+		}
+
 	};
 }
 
