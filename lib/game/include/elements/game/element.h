@@ -24,7 +24,7 @@ namespace elements {
 		std::size_t id() const {
 			return id_v;
 		}
-		friend bool operator ==(const element_token& a, nullptr_t) {
+		friend bool operator ==(const element_token& a, std::nullptr_t) {
 			return a.id() == 0;
 		}
 		friend bool operator ==(const element_token& a, const element_token& b) {
