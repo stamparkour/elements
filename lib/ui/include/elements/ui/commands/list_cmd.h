@@ -32,7 +32,7 @@ namespace elements {
 		}
 		if (is_version_invoke) {
 			cout
-				<< "list 1.0 - elements game list command" << std::endl;
+				<< "listall 1.0 - elements game listall command" << std::endl;
 			return 0;
 		}
 

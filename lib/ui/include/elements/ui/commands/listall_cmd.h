@@ -27,8 +27,8 @@ namespace elements {
 		}
 		if (is_help_invoke) {
 			cout
-				<< "prints out unused recipe of two element pair." << std::endl
-				<< "combo *[flags] [count]" << std::endl
+				<< "prints out all elements." << std::endl
+				<< "combo *[flags]" << std::endl
 				<< "flags:" << std::endl
 				<< "--version | -v : prints version info about combo command" << std::endl
 				<< "--help | -h : prints help info about combo command" << std::endl;
@@ -45,12 +45,6 @@ namespace elements {
 		auto element_registry = state->element_registry();
 		auto recipe_registry = state->recipe_registry();
 		std::vector<std::string> arr{};
-
-		int total_combos = 1;
-
-		if (argv == last_flag + 2) {
-			total_combos = std::stoi(argc[last_flag + 1]);
-		}
 
 		auto& list = element_registry->name_token_map();
 		for (auto i = list.begin(); i != list.end(); ++i) {
