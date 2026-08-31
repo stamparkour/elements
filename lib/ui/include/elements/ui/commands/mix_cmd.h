@@ -4,6 +4,7 @@
 #include <elements/game.h>
 #include <string>
 #include <iostream>
+#include <cstring>
 
 namespace elements {
 	int inline_mix(const char* ac, const char* bc, std::ostream& cout) {

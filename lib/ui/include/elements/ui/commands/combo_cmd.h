@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <random>
+#include <cstring>
 
 namespace elements {
 	int combo_cmd(int argv, char** argc, std::istream& cin, std::ostream& cout) {

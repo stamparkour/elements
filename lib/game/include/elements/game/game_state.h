@@ -13,9 +13,9 @@ namespace elements {
 	
 	class game_state {
 		static inline game_state* global_game_state_v = nullptr;
-		element_registry element_r;
-		recipe_registry recipe_r;
-		element_inventory inventory_v;
+		elements::element_registry element_r;
+		elements::recipe_registry recipe_r;
+		elements::element_inventory inventory_v;
 	public:
 		game_state() :
 			element_r(),

@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <elements/elements_config.h>
+#include <cstring>
 
 namespace elements {
 	int howto_cmd(int argv, char** argc, std::istream& cin, std::ostream& cout) {

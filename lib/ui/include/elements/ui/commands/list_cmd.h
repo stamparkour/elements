@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include <unordered_set>
+#include <cstring>
 
 namespace elements {
 	int list_cmd(int argv, char** argc, std::istream& cin, std::ostream& cout) {
